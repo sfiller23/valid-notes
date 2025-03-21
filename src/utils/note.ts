@@ -213,6 +213,7 @@ export type Intervals = [
 ];
 
 export class MusicalScale {
+  // for future use
   private root: string;
   private intervals: Intervals;
   private notes: string[];
@@ -237,6 +238,15 @@ export class MusicalScale {
     return this.notes;
   }
 
+  getRoot(): string {
+    return this.root;
+  }
+
+  getIntervals(): Intervals {
+    return this.intervals;
+  }
+
+  // for future use:
   //   addNote(note: Note): void {
   //     this.notes.push(note);
   //   }
