@@ -8,6 +8,24 @@ import {
   notes,
 } from "./utils/note";
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBiJC1Xh8vA-tmIbfzJPEdRz21C1UGvwV4",
+  authDomain: "valid-notes.firebaseapp.com",
+  projectId: "valid-notes",
+  storageBucket: "valid-notes.firebasestorage.app",
+  messagingSenderId: "1601744131",
+  appId: "1:1601744131:web:1e4b87e7620392944e8d36"
+};
+
+// Initialize Firebase
+initializeApp(firebaseConfig);
+
 function App() {
   const [chord, setChord] = useState<string>("");
   const [currentValidNotes, setCurrentValidNotes] = useState<Set<string>>(
