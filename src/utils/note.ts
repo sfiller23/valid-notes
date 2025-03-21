@@ -213,7 +213,7 @@ export type Intervals = [
 ];
 
 export class MusicalScale {
-  // for future use
+
   private root: string;
   private intervals: Intervals;
   private notes: string[];
