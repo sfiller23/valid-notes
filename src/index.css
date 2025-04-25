@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --grid-item-size: 2.8rem;
+  --button-size: 2.2rem;
 }
 
 a {

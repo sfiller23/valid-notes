@@ -20,7 +20,7 @@ const firebaseConfig = {
   projectId: "valid-notes",
   storageBucket: "valid-notes.firebasestorage.app",
   messagingSenderId: "1601744131",
-  appId: "1:1601744131:web:1e4b87e7620392944e8d36"
+  appId: "1:1601744131:web:1e4b87e7620392944e8d36",
 };
 
 // Initialize Firebase
@@ -74,6 +74,14 @@ function App() {
     setCurrentValidNotes(validNotes);
   };
 
+  const guitarHeader = () => {
+    const header = [];
+    for (let i = numColumns; i > 0; i--) {
+      header.push(<span className="fret-number-item">{i}</span>);
+    }
+    return header;
+  };
+
   const renderGrid = () => {
     const grid = [];
 
@@ -86,31 +94,62 @@ function App() {
       const currentRow = new CyclicLinkedList(currentNode);
       for (let col = numColumns; col > 0; col--) {
         rowItems.push(
-          <span key={`${row}-${col}`} className="grid-item">
-            <button
-              style={{
-                backgroundColor: `${
-                  currentValidNotes.has(
-                    currentRow?.getNodeByIndex(col)?.value as string
-                  )
-                    ? "green"
-                    : "grey"
-                }`,
-                margin: "5px",
-              }}
-              type="button"
-            >
-              <div>{col}</div>
-              <div>{currentRow.getNodeByIndex(col)?.value}</div>
-            </button>
-          </span>
+          <>
+            <span key={`${row}-${col}`} className="grid-item">
+              <span id="string"></span>
+              <button
+                className="guitar-button"
+                key={`${row}-${col}`}
+                style={{
+                  backgroundColor: `${
+                    currentValidNotes.has(
+                      currentRow?.getNodeByIndex(col)?.value as string
+                    )
+                      ? "green"
+                      : "grey"
+                  }`,
+                  margin: "5px",
+                  opacity: 0.6,
+                }}
+                type="button"
+              >
+                <div>{currentRow.getNodeByIndex(col)?.value}</div>
+              </button>
+            </span>
+            {col === 1 && (
+              <span key={`${row}-${col}`} className="grid-item open-strings">
+                <span id="string"></span>
+                <button
+                  className="guitar-button"
+                  key={`${row}-${col}`}
+                  style={{
+                    backgroundColor: `${
+                      currentValidNotes.has(
+                        currentRow?.getNodeByIndex(col)?.value as string
+                      )
+                        ? "green"
+                        : "grey"
+                    }`,
+                    margin: "5px",
+                    opacity: 0.6,
+                  }}
+                  type="button"
+                >
+                  <div>{currentRow.getNodeByIndex(col + 11)?.value}</div>
+                </button>
+              </span>
+            )}
+          </>
         );
       }
 
       grid.push(
-        <div key={row} className="grid-row">
-          {rowItems}
-        </div>
+        <>
+          <div key={row} className="grid-row">
+            {row === 1 && <div className="fret-number">{guitarHeader()}</div>}
+            {rowItems}
+          </div>
+        </>
       );
     }
 
@@ -119,23 +158,30 @@ function App() {
 
   return (
     <>
-      <label htmlFor="chord">Please Input Chord Notes : </label>
-      <input
-        id="chord"
-        type="text"
-        value={chord}
-        onChange={(e) => {
-          setChord(e.target.value);
-        }}
-      />
-      <button
-        style={{ margin: "5px", backgroundColor: "blue" }}
-        onClick={getNotes}
-        type="button"
-      >
-        Get Notes
-      </button>
-      <div className="grid-container">{renderGrid()}</div>
+      <div id="input-header">
+        <label htmlFor="chord">
+          Please Input Chord Notes <b>separated by a comma</b>:
+        </label>
+        <input
+          id="chord"
+          type="text"
+          value={chord}
+          onChange={(e) => {
+            setChord(e.target.value);
+          }}
+        />
+        <button
+          style={{ margin: "5px", backgroundColor: "blue" }}
+          onClick={getNotes}
+          type="button"
+        >
+          Get Notes
+        </button>
+      </div>
+      <div id="guitar-container">
+        <div className="grid-container">{renderGrid()}</div>
+        <div id="stopper"></div>
+      </div>
     </>
   );
 }
