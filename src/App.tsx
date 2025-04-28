@@ -8,6 +8,8 @@ import {
   notes,
 } from "./utils/note";
 
+import Soundfont from "soundfont-player";
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -74,6 +76,15 @@ function App() {
     setCurrentValidNotes(validNotes);
   };
 
+  const playGuitarNote = async (note: string) => {
+    const audioContext = new (window.AudioContext || window.AudioContext)();
+    const guitar = await Soundfont.instrument(
+      audioContext,
+      "acoustic_guitar_nylon"
+    );
+    guitar.play(note);
+  };
+
   const guitarHeader = () => {
     const header = [];
     for (let i = numColumns; i > 0; i--) {
@@ -112,6 +123,9 @@ function App() {
                   opacity: 0.6,
                 }}
                 type="button"
+                onClick={() => {
+                  playGuitarNote("E2");
+                }}
               >
                 <div>{currentRow.getNodeByIndex(col)?.value}</div>
               </button>
@@ -134,6 +148,9 @@ function App() {
                     opacity: 0.6,
                   }}
                   type="button"
+                  onClick={() => {
+                    playGuitarNote("E2");
+                  }}
                 >
                   <div>{currentRow.getNodeByIndex(col + 11)?.value}</div>
                 </button>
