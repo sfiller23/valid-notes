@@ -3,6 +3,8 @@ import "./App.css";
 import {
   CyclicLinkedList,
   Node as Gnode,
+  guitarOctavesMap,
+  guitarOpenStringsMap,
   Intervals,
   MusicalScale,
   notes,
@@ -78,10 +80,12 @@ function App() {
 
   const playGuitarNote = async (note: string) => {
     const audioContext = new (window.AudioContext || window.AudioContext)();
+
     const guitar = await Soundfont.instrument(
       audioContext,
       "acoustic_guitar_nylon"
     );
+
     guitar.play(note);
   };
 
@@ -123,9 +127,13 @@ function App() {
                   opacity: 0.6,
                 }}
                 type="button"
-                onClick={() => {
-                  playGuitarNote("E2");
-                }}
+                onClick={() =>
+                  playGuitarNote(
+                    `${currentRow.getNodeByIndex(col)?.value}${
+                      guitarOctavesMap[row - 1][col - 1]
+                    }`
+                  )
+                }
               >
                 <div>{currentRow.getNodeByIndex(col)?.value}</div>
               </button>
@@ -148,9 +156,13 @@ function App() {
                     opacity: 0.6,
                   }}
                   type="button"
-                  onClick={() => {
-                    playGuitarNote("E2");
-                  }}
+                  onClick={() =>
+                    playGuitarNote(
+                      `${currentRow.getNodeByIndex(col + 11)?.value}${
+                        guitarOpenStringsMap[row - 1]
+                      }`
+                    )
+                  }
                 >
                   <div>{currentRow.getNodeByIndex(col + 11)?.value}</div>
                 </button>

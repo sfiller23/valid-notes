@@ -13,6 +13,17 @@ export const notes = [
   "G#",
 ];
 
+export const guitarOctavesMap = [
+  [2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3],
+  [2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+  [3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4],
+  [3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4],
+  [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+  [4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5],
+];
+
+export const guitarOpenStringsMap = [2, 2, 3, 3, 3, 4];
+
 export class Node {
   value: string;
   next: Node | null;
@@ -213,7 +224,6 @@ export type Intervals = [
 ];
 
 export class MusicalScale {
-
   private root: string;
   private intervals: Intervals;
   private notes: string[];
