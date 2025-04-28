@@ -1,31 +1,21 @@
+import { initializeApp } from "firebase/app";
 import { useState } from "react";
 import "./App.css";
+
+import { MusicalLinkedList } from "./classes/MusicalLinkedList";
+import { MusicalScale } from "./classes/MusicalScale";
+import { NoteNode } from "./classes/NoteNode";
+import Frets from "./components/Frets";
+import Note from "./components/Note";
 import {
-  CyclicLinkedList,
-  Node as Gnode,
-  guitarOctavesMap,
-  guitarOpenStringsMap,
-  Intervals,
-  MusicalScale,
+  fretBoardNotes,
+  fretsNum,
+  majorScaleSchema,
   notes,
-} from "./utils/note";
-
-import Soundfont from "soundfont-player";
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBiJC1Xh8vA-tmIbfzJPEdRz21C1UGvwV4",
-  authDomain: "valid-notes.firebaseapp.com",
-  projectId: "valid-notes",
-  storageBucket: "valid-notes.firebasestorage.app",
-  messagingSenderId: "1601744131",
-  appId: "1:1601744131:web:1e4b87e7620392944e8d36",
-};
+  standardTuning,
+  stringsNum,
+} from "./constants/guitarConst";
+import { firebaseConfig } from "./firebaseConfig";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -36,22 +26,11 @@ function App() {
     new Set<string>()
   );
 
-  const numRows = 6;
-  const numColumns = 12;
-
-  const tuning: string[] = ["E", "A", "D", "G", "B", "E"];
-
-  const fretBoardNotes = new CyclicLinkedList();
-
-  fretBoardNotes.buildList(notes);
-
-  const currentScaleSchema: Intervals = [2, 2, 1, 2, 2, 2, 1];
-
   const generateAllScales = () => {
     const allScales: string[][] = [];
 
     notes.forEach((note) => {
-      const scale = new MusicalScale(note, currentScaleSchema);
+      const scale = new MusicalScale(note, majorScaleSchema);
       allScales.push(scale.getNotes());
     });
 
@@ -78,107 +57,45 @@ function App() {
     setCurrentValidNotes(validNotes);
   };
 
-  const playGuitarNote = async (note: string) => {
-    const audioContext = new (window.AudioContext || window.AudioContext)();
-
-    const guitar = await Soundfont.instrument(
-      audioContext,
-      "acoustic_guitar_nylon"
-    );
-
-    guitar.play(note);
-  };
-
-  const guitarHeader = () => {
-    const header = [];
-    for (let i = numColumns; i > 0; i--) {
-      header.push(<span className="fret-number-item">{i}</span>);
-    }
-    return header;
-  };
+  fretBoardNotes.buildList(notes);
 
   const renderGrid = () => {
     const grid = [];
 
-    for (let row = 1; row < numRows + 1; row++) {
+    for (let string = 1; string < stringsNum + 1; string++) {
       const rowItems = [];
-      const currentNode: Gnode | null = fretBoardNotes.getNextNode(
-        tuning[row - 1]
+      const firstNote: NoteNode | null = fretBoardNotes.getNextNode(
+        standardTuning[string - 1]
       );
 
-      const currentRow = new CyclicLinkedList(currentNode);
-      for (let col = numColumns; col > 0; col--) {
+      const stringNotes = new MusicalLinkedList(firstNote);
+      for (let fret = fretsNum; fret > 0; fret--) {
         rowItems.push(
           <>
-            <span key={`${row}-${col}`} className="grid-item">
-              <span id="string"></span>
-              <button
-                className="guitar-button"
-                key={`${row}-${col}`}
-                style={{
-                  backgroundColor: `${
-                    currentValidNotes.has(
-                      currentRow?.getNodeByIndex(col)?.value as string
-                    )
-                      ? "green"
-                      : "grey"
-                  }`,
-                  margin: "5px",
-                  opacity: 0.6,
-                }}
-                type="button"
-                onClick={() =>
-                  playGuitarNote(
-                    `${currentRow.getNodeByIndex(col)?.value}${
-                      guitarOctavesMap[row - 1][col - 1]
-                    }`
-                  )
-                }
-              >
-                <div>{currentRow.getNodeByIndex(col)?.value}</div>
-              </button>
-            </span>
-            {col === 1 && (
-              <span key={`${row}-${col}`} className="grid-item open-strings">
-                <span id="string"></span>
-                <button
-                  className="guitar-button"
-                  key={`${row}-${col}`}
-                  style={{
-                    backgroundColor: `${
-                      currentValidNotes.has(
-                        currentRow?.getNodeByIndex(col)?.value as string
-                      )
-                        ? "green"
-                        : "grey"
-                    }`,
-                    margin: "5px",
-                    opacity: 0.6,
-                  }}
-                  type="button"
-                  onClick={() =>
-                    playGuitarNote(
-                      `${currentRow.getNodeByIndex(col + 11)?.value}${
-                        guitarOpenStringsMap[row - 1]
-                      }`
-                    )
-                  }
-                >
-                  <div>{currentRow.getNodeByIndex(col + 11)?.value}</div>
-                </button>
-              </span>
+            <Note
+              string={string}
+              fret={fret}
+              validNotes={currentValidNotes}
+              stringNotes={stringNotes}
+            />
+            {fret === 1 && (
+              <Note
+                string={string}
+                fret={fret}
+                validNotes={currentValidNotes}
+                stringNotes={stringNotes}
+                isOpenString
+              />
             )}
           </>
         );
       }
 
       grid.push(
-        <>
-          <div key={row} className="grid-row">
-            {row === 1 && <div className="fret-number">{guitarHeader()}</div>}
-            {rowItems}
-          </div>
-        </>
+        <div key={`${string}num`} className="grid-row">
+          {string === 1 && <Frets fretsNum={fretsNum} />}
+          {rowItems}
+        </div>
       );
     }
 
