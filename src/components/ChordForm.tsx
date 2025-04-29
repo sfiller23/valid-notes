@@ -1,18 +1,15 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-interface FormData {
+export interface FormData {
   chord: string;
 }
 
 interface ChordFormProps {
-  setChord: React.Dispatch<React.SetStateAction<string>>;
-  getNotes: () => void;
-  chord: string;
+  onSubmit: (data: FormData) => void;
 }
 
 const ChordForm = (props: ChordFormProps) => {
-  const { setChord, getNotes, chord } = props;
+  const { onSubmit } = props;
 
   const {
     register,
@@ -21,15 +18,9 @@ const ChordForm = (props: ChordFormProps) => {
     clearErrors,
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
-    setChord(data.chord);
+  const handleChange = () => {
+    clearErrors();
   };
-
-  useEffect(() => {
-    if (chord) {
-      getNotes();
-    }
-  }, [chord, getNotes]);
 
   return (
     <>
@@ -51,7 +42,7 @@ const ChordForm = (props: ChordFormProps) => {
                 "Invalid chord format. Use notes like A, B, C#, etc., separated by commas.",
             },
           })}
-          onChange={() => clearErrors()}
+          onChange={handleChange}
         />
         <button id="submit-button" type="submit">
           Get Notes

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { generateAllScales } from "../utils/functions";
 
 export const useValidNotes = () => {
@@ -7,7 +7,7 @@ export const useValidNotes = () => {
     new Set<string>()
   );
 
-  const getNotes = useCallback(() => {
+  useEffect(() => {
     const currentChord = chord.toUpperCase().split(",");
 
     const allScalesMatrix = generateAllScales();
@@ -23,8 +23,7 @@ export const useValidNotes = () => {
         validNotes.add(note);
       });
     });
-
     setCurrentValidNotes(validNotes);
   }, [chord]);
-  return { setChord, currentValidNotes, getNotes, chord };
+  return { setChord, currentValidNotes };
 };

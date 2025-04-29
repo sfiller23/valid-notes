@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import "./App.css";
 
-import ChordForm from "./components/ChordForm";
+import ChordForm, { FormData } from "./components/ChordForm";
 import FretBoard from "./components/FretBoard";
 import { firebaseConfig } from "./firebaseConfig";
 import { useValidNotes } from "./hooks/useValidNotes";
@@ -10,12 +10,13 @@ import { useValidNotes } from "./hooks/useValidNotes";
 initializeApp(firebaseConfig);
 
 function App() {
-  const { setChord, currentValidNotes, getNotes, chord } = useValidNotes();
-
+  const { setChord, currentValidNotes } = useValidNotes();
+  const handleSubmit = (data: FormData) => {
+    setChord(data.chord);
+  };
   return (
     <>
-      <ChordForm setChord={setChord} getNotes={getNotes} chord={chord} />
-
+      <ChordForm onSubmit={handleSubmit} />
       <FretBoard validNotes={currentValidNotes} />
     </>
   );
