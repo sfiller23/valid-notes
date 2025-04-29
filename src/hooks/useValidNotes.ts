@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { MusicalScale } from "../classes/MusicalScale";
-import { majorScaleSchema, notes } from "../constants/guitarConst";
+import { useCallback, useState } from "react";
+import { generateAllScales } from "../utils/functions";
 
 export const useValidNotes = () => {
   const [chord, setChord] = useState<string>("");
@@ -8,18 +7,7 @@ export const useValidNotes = () => {
     new Set<string>()
   );
 
-  const generateAllScales = () => {
-    const allScales: string[][] = [];
-
-    notes.forEach((note) => {
-      const scale = new MusicalScale(note, majorScaleSchema);
-      allScales.push(scale.getNotes());
-    });
-
-    return allScales;
-  };
-
-  const getNotes = () => {
+  const getNotes = useCallback(() => {
     const currentChord = chord.toUpperCase().split(",");
 
     const allScalesMatrix = generateAllScales();
@@ -37,6 +25,6 @@ export const useValidNotes = () => {
     });
 
     setCurrentValidNotes(validNotes);
-  };
+  }, [chord]);
   return { setChord, currentValidNotes, getNotes, chord };
 };

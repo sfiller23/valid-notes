@@ -4,7 +4,7 @@
   padding: 2rem;
   text-align: center;
 }
-#input-header {
+#chords-form {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,4 +56,21 @@
 }
 .fret-number-item {
   width: var(--grid-item-size);
+}
+#form-error {
+  color: red;
+}
+#submit-button {
+  margin: 5px;
+  background-color: blue;
+}
+.valid {
+  background-color: green;
+}
+.not-valid {
+  background-color: grey;
+}
+.guitar-button {
+  margin: 5px;
+  opacity: 0.6;
 }

@@ -1,5 +1,6 @@
-import React from "react";
-import Frets from "./Frets";
+import { Fragment } from "react";
+import { MusicalLinkedList } from "../classes/MusicalLinkedList";
+import { NoteNode } from "../classes/NoteNode";
 import {
   fretBoardNotes,
   fretsNum,
@@ -7,8 +8,7 @@ import {
   standardTuning,
   stringsNum,
 } from "../constants/guitarConst";
-import { NoteNode } from "../classes/NoteNode";
-import { MusicalLinkedList } from "../classes/MusicalLinkedList";
+import Frets from "./Frets";
 import Note from "./Note";
 
 const FretBoard = (props: { validNotes: Set<string> }) => {
@@ -27,7 +27,7 @@ const FretBoard = (props: { validNotes: Set<string> }) => {
       const stringNotes = new MusicalLinkedList(firstNote);
       for (let fret = fretsNum; fret > 0; fret--) {
         rowItems.push(
-          <>
+          <Fragment key={`${string}-${fret}-fragment`}>
             <Note
               string={string}
               fret={fret}
@@ -43,7 +43,7 @@ const FretBoard = (props: { validNotes: Set<string> }) => {
                 isOpenString
               />
             )}
-          </>
+          </Fragment>
         );
       }
 
