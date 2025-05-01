@@ -16,7 +16,7 @@
 
 ## 🖼️ Screenshots
 
-![Fretboard Visualization](public/screenshots/fretboard.png "Fretboard Visualization")
+![Fretboard Visualization](public/screenshots/fretboard.jpeg "Fretboard Visualization")
 _Example of the fret board with valid notes highlighted._
 
 ---
