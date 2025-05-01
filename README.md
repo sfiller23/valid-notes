@@ -1,13 +1,13 @@
 # 🎸 Valid Notes
 
-**Valid Notes** is a React + TypeScript application that helps users visualize and interact with musical notes and scales on a guitar fretboard. The app dynamically calculates valid notes based on user-inputted chords and provides a visual representation of the fretboard, along with audio playback for individual notes.
+**Valid Notes** is a React + TypeScript application that helps users visualize and interact with musical notes and scales on a guitar fret board. The app dynamically calculates valid notes based on user-inputted chords and provides a visual representation of the fret board, along with audio playback for individual notes.
 
 ---
 
 ## 🚀 Features
 
-- 🎼 **Dynamic Chord Validation**: Input chords to calculate and display valid notes on the fretboard.
-- 🎸 **Interactive Fretboard**: Visualize valid notes on a guitar fretboard with dynamic highlighting.
+- 🎼 **Dynamic Chord Validation**: Input chords to calculate and display valid notes on the fret board.
+- 🎸 **Interactive Fret board**: Visualize valid notes on a guitar fret board with dynamic highlighting.
 - 🔊 **Audio Playback**: Play individual notes using the Web Audio API and `soundfont-player`.
 - ⚡ **Built with Vite**: Fast development environment with hot module replacement (HMR).
 - 🛠️ **TypeScript Support**: Strongly typed codebase for better maintainability and developer experience.
@@ -16,8 +16,8 @@
 
 ## 🖼️ Screenshots
 
-![Fretboard Visualization](https://via.placeholder.com/800x400?text=Fretboard+Visualization)  
-_Example of the fretboard with valid notes highlighted._
+![Fretboard Visualization](public/screenshots/fretboard.png "Fretboard Visualization")
+_Example of the fret board with valid notes highlighted._
 
 ---
 
