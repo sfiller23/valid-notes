@@ -1,12 +1,12 @@
 /**
- * A component for rendering the fret numbers at the top of the fretboard.
+ * A component for rendering the fret numbers at the top of the fret board.
  * Displays the fret numbers in descending order, starting from the highest fret.
  */
 const Frets = (props: { fretsNum: number }) => {
   const { fretsNum } = props;
 
   /**
-   * Generates the fret number header for the fretboard.
+   * Generates the fret number header for the fret board.
    * Creates a span element for each fret number in descending order.
    * @returns An array of JSX elements representing the fret numbers.
    */

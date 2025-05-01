@@ -4,6 +4,12 @@
   padding: 2rem;
   text-align: center;
 }
+#app-container {
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
 #chords-form {
   display: flex;
   justify-content: center;

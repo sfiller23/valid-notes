@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { generateAllScales } from "../utils/functions";
 
 /**
@@ -6,14 +6,13 @@ import { generateAllScales } from "../utils/functions";
  * This hook computes valid notes dynamically whenever the chord changes.
  */
 export const useValidNotes = () => {
-  const [chord, setChord] = useState<string>(""); // The current chord input by the user
   const [currentValidNotes, setCurrentValidNotes] = useState<Set<string>>(
     new Set<string>()
   ); // The set of valid notes based on the chord
 
-  useEffect(() => {
+  const getNotes = useCallback((notes: string) => {
     // Split the chord into individual notes and convert to uppercase for consistency
-    const currentChord = chord.toUpperCase().split(",");
+    const currentChord = notes.toUpperCase().split(",");
 
     // Generate all possible scales (e.g., major, minor, etc.)
     const allScalesMatrix = generateAllScales();
@@ -34,7 +33,11 @@ export const useValidNotes = () => {
 
     // Update the state with the computed valid notes
     setCurrentValidNotes(validNotes);
-  }, [chord]); // Recompute valid notes whenever the chord changes
+  }, []); // Recompute valid notes whenever the chord changes
 
-  return { setChord, currentValidNotes }; // Expose the setter and the computed notes
+  const resetValidNotes = useCallback(() => {
+    setCurrentValidNotes(new Set<string>());
+  }, []);
+
+  return { currentValidNotes, resetValidNotes, getNotes }; // Expose the setter and the computed notes
 };

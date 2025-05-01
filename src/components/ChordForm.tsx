@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 export interface FormData {
@@ -6,6 +7,7 @@ export interface FormData {
 
 interface ChordFormProps {
   onSubmit: (data: FormData) => void; // Callback for handling form submission
+  resetValidNotes: () => void;
 }
 
 /**
@@ -13,7 +15,7 @@ interface ChordFormProps {
  * Uses `react-hook-form` for form validation and submission handling.
  */
 const ChordForm = (props: ChordFormProps) => {
-  const { onSubmit } = props;
+  const { onSubmit, resetValidNotes } = props;
 
   const {
     register,
@@ -28,6 +30,15 @@ const ChordForm = (props: ChordFormProps) => {
   const handleChange = () => {
     clearErrors();
   };
+
+  /**
+   * Clears fret board on errors.
+   */
+  useEffect(() => {
+    if (errors.chord) {
+      resetValidNotes();
+    }
+  }, [errors.chord, resetValidNotes]);
 
   return (
     <>

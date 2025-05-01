@@ -14,24 +14,24 @@ initializeApp(firebaseConfig);
  * Manages the state of the chord and valid notes using the `useValidNotes` hook.
  */
 function App() {
-  const { setChord, currentValidNotes } = useValidNotes();
+  const { currentValidNotes, resetValidNotes, getNotes } = useValidNotes();
 
   /**
    * Handles form submission by updating the chord state.
    * @param data - The form data containing the chord input.
    */
   const handleSubmit = (data: FormData) => {
-    setChord(data.chord);
+    getNotes(data.chord);
   };
 
   return (
-    <>
+    <div id="app-container">
       {/* Form for inputting chords */}
-      <ChordForm onSubmit={handleSubmit} />
+      <ChordForm onSubmit={handleSubmit} resetValidNotes={resetValidNotes} />
 
-      {/* Fretboard visualization of valid notes */}
+      {/* Fret board visualization of valid notes */}
       <FretBoard validNotes={currentValidNotes} />
-    </>
+    </div>
   );
 }
 

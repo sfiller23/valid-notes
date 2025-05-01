@@ -12,18 +12,18 @@ import Frets from "./Frets";
 import Note from "./Note";
 
 interface FretBoardProps {
-  validNotes: Set<string>; // The set of valid notes to display on the fretboard
+  validNotes: Set<string>; // The set of valid notes to display on the fret board
 }
 
 /**
- * A component for rendering a guitar fretboard.
+ * A component for rendering a guitar fret board.
  * Displays valid notes based on the provided `validNotes` prop.
  */
 const FretBoard = (props: FretBoardProps) => {
   const { validNotes } = props;
   /**
-   * Renders the grid of strings and frets for the fretboard.
-   * @returns An array of JSX elements representing the fretboard grid.
+   * Renders the grid of strings and frets for the fret board.
+   * @returns An array of JSX elements representing the fret board grid.
    */
   const renderGrid = () => {
     const grid = [];
