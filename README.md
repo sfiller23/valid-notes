@@ -86,18 +86,6 @@ Follow these steps to run the project locally:
 
 ---
 
-## 🧪 Testing
-
-### Unit Tests
-
-- The project includes unit tests for core functionality (e.g., `useValidNotes`, `MusicalLinkedList`).
-- To run tests:
-  ```bash
-  npm run test
-  ```
-
----
-
 ## 📖 Usage
 
 1. **Input Chords**:
