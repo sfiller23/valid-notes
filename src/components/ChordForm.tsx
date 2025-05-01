@@ -1,13 +1,17 @@
 import { useForm } from "react-hook-form";
 
 export interface FormData {
-  chord: string;
+  chord: string; // Represents the chord input by the user
 }
 
 interface ChordFormProps {
-  onSubmit: (data: FormData) => void;
+  onSubmit: (data: FormData) => void; // Callback for handling form submission
 }
 
+/**
+ * A form component for inputting musical chords.
+ * Uses `react-hook-form` for form validation and submission handling.
+ */
 const ChordForm = (props: ChordFormProps) => {
   const { onSubmit } = props;
 
@@ -18,12 +22,16 @@ const ChordForm = (props: ChordFormProps) => {
     clearErrors,
   } = useForm<FormData>();
 
+  /**
+   * Clears validation errors when the input changes.
+   */
   const handleChange = () => {
     clearErrors();
   };
 
   return (
     <>
+      {/* Display validation errors after form submission */}
       {isSubmitted && errors.chord && (
         <p id="form-error">{errors.chord.message}</p>
       )}
@@ -35,9 +43,9 @@ const ChordForm = (props: ChordFormProps) => {
           id="chord"
           type="text"
           {...register("chord", {
-            required: "Chord is required", // Validation rule: required
+            required: "Chord is required", // Validation rule: required field
             pattern: {
-              value: /^[A-Ga-g](#|b)?(,\s*[A-Ga-g](#|b)?)*$/, // Updated regex for chords separated by commas
+              value: /^[A-Ga-g](#|b)?(,\s*[A-Ga-g](#|b)?)*$/, // Regex for valid chord format
               message:
                 "Invalid chord format. Use notes like A, B, C#, etc., separated by commas.",
             },
