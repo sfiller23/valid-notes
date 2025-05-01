@@ -11,22 +11,34 @@ import {
 import Frets from "./Frets";
 import Note from "./Note";
 
-const FretBoard = (props: { validNotes: Set<string> }) => {
+interface FretBoardProps {
+  validNotes: Set<string>; // The set of valid notes to display on the fretboard
+}
+
+/**
+ * A component for rendering a guitar fretboard.
+ * Displays valid notes based on the provided `validNotes` prop.
+ */
+const FretBoard = (props: FretBoardProps) => {
   const { validNotes } = props;
+  /**
+   * Renders the grid of strings and frets for the fretboard.
+   * @returns An array of JSX elements representing the fretboard grid.
+   */
   const renderGrid = () => {
     const grid = [];
 
     fretBoardNotes.buildList(notes);
 
     for (let string = 1; string < stringsNum + 1; string++) {
-      const rowItems = [];
+      const stringItems = [];
       const firstNote: NoteNode | null = fretBoardNotes.getNextNode(
         standardTuning[string - 1]
       );
 
       const stringNotes = new MusicalLinkedList(firstNote);
       for (let fret = fretsNum; fret > 0; fret--) {
-        rowItems.push(
+        stringItems.push(
           <Fragment key={`${string}-${fret}-fragment`}>
             <Note
               string={string}
@@ -34,7 +46,7 @@ const FretBoard = (props: { validNotes: Set<string> }) => {
               validNotes={validNotes}
               stringNotes={stringNotes}
             />
-            {fret === 1 && (
+            {fret === 1 && ( // The open string notes
               <Note
                 string={string}
                 fret={fret}
@@ -50,7 +62,7 @@ const FretBoard = (props: { validNotes: Set<string> }) => {
       grid.push(
         <div key={`${string}num`} className="grid-row">
           {string === 1 && <Frets fretsNum={fretsNum} />}
-          {rowItems}
+          {stringItems}
         </div>
       );
     }
